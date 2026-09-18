@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#000000" />
+  <title>Duda</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="locked">
+
+  <!-- TELA DO CADEADO -->
+  <section id="lockScreen" class="lock-screen" aria-label="Digite nossa data para abrir">
+    <div id="lockCard" class="lock-card">
+      <div class="padlock" aria-hidden="true">
+        <div class="shackle"></div>
+        <div class="lock-body">
+          <div class="keyhole"></div>
+          <span>Nossa data</span>
+        </div>
+      </div>
+
+      <p class="hint">Digite a nossa data 💗</p>
+
+      <div class="date-code" aria-label="Data no formato dia, mês e ano">
+        <input class="code-part" id="day" inputmode="numeric" maxlength="2" placeholder="DD" aria-label="Dia" autocomplete="off">
+        <span>•</span>
+        <input class="code-part" id="month" inputmode="numeric" maxlength="2" placeholder="MM" aria-label="Mês" autocomplete="off">
+        <span>•</span>
+        <input class="code-part" id="year" inputmode="numeric" maxlength="2" placeholder="AA" aria-label="Ano" autocomplete="off">
+      </div>
+
+      <button id="unlockButton" type="button">Abrir</button>
+      <p id="errorMessage" class="error-message" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- CORAÇÃO: mesma animação da versão aprovada -->
+  <main id="scene" aria-label="Coração animado formado pelo nome Duda">
+    <div id="ui"></div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
