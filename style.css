@@ -1,0 +1,357 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #000;
+}
+
+body {
+  min-height: 100dvh;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: #fff;
+}
+
+/* =========================
+   TELA DO CADEADO
+   ========================= */
+
+.lock-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: #000;
+  transition:
+    opacity 0.65s ease,
+    visibility 0.65s ease;
+}
+
+.lock-card {
+  width: min(92vw, 350px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.padlock {
+  position: relative;
+  width: 150px;
+  height: 165px;
+  margin-bottom: 22px;
+}
+
+.shackle {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 92px;
+  height: 92px;
+  border: 11px solid #ff74ad;
+  border-bottom: 0;
+  border-radius: 50px 50px 0 0;
+  transform: translateX(-50%);
+  transform-origin: 84% 100%;
+  transition: transform 0.52s cubic-bezier(.2,.8,.2,1);
+  filter:
+    drop-shadow(0 0 5px rgba(255, 116, 173, 0.7))
+    drop-shadow(0 0 14px rgba(255, 74, 150, 0.25));
+}
+
+.lock-body {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 150px;
+  height: 100px;
+  transform: translateX(-50%);
+  border: 2px solid rgba(255, 133, 185, 0.7);
+  border-radius: 25px;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 116, 173, 0.24),
+    rgba(255, 116, 173, 0.08)
+  );
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.035) inset,
+    0 0 30px rgba(255, 65, 145, 0.12);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+}
+
+.lock-body span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 13px;
+  color: #ff93bf;
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+
+.keyhole {
+  position: absolute;
+  left: 50%;
+  top: 25px;
+  width: 15px;
+  height: 15px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: #ff86b8;
+  box-shadow: 0 0 10px rgba(255, 102, 168, 0.72);
+}
+
+.keyhole::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  width: 7px;
+  height: 19px;
+  transform: translateX(-50%);
+  border-radius: 0 0 5px 5px;
+  background: #ff86b8;
+}
+
+.hint {
+  margin: 0 0 16px;
+  color: rgba(255,255,255,0.72);
+  font-size: 14px;
+  letter-spacing: 0.2px;
+}
+
+.date-code {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-bottom: 17px;
+}
+
+.date-code > span {
+  color: #ff7fb4;
+  font-size: 21px;
+  transform: translateY(-2px);
+}
+
+.code-part {
+  width: 66px;
+  height: 57px;
+  border: 1px solid rgba(255, 121, 177, 0.43);
+  border-radius: 15px;
+  outline: none;
+  background: rgba(255,255,255,0.035);
+  color: #ff91bd;
+  text-align: center;
+  font: 700 21px/1 system-ui, -apple-system, "Segoe UI", sans-serif;
+  caret-color: #ff7fb4;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.018) inset;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.code-part::placeholder {
+  color: rgba(255, 145, 189, 0.3);
+}
+
+.code-part:focus {
+  border-color: #ff76ae;
+  background: rgba(255, 116, 173, 0.07);
+  box-shadow: 0 0 18px rgba(255, 77, 151, 0.12);
+}
+
+#unlockButton {
+  width: 224px;
+  height: 48px;
+  border: 1px solid rgba(255, 126, 181, 0.56);
+  border-radius: 999px;
+  background: rgba(255, 116, 173, 0.12);
+  color: #ff93bf;
+  font: 650 14px/1 system-ui, -apple-system, "Segoe UI", sans-serif;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+#unlockButton:active {
+  transform: scale(0.97);
+}
+
+#unlockButton:hover {
+  background: rgba(255, 116, 173, 0.19);
+  box-shadow: 0 0 22px rgba(255, 75, 150, 0.12);
+}
+
+.error-message {
+  min-height: 20px;
+  margin: 10px 0 0;
+  color: #ff8eb8;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.error-message.show {
+  opacity: 1;
+}
+
+.lock-card.wrong {
+  animation: wrongShake 0.38s ease;
+}
+
+@keyframes wrongShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(7px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(4px); }
+}
+
+/* Abrindo o cadeado */
+body.unlocked .shackle {
+  transform: translateX(-50%) translateY(-7px) rotate(35deg);
+}
+
+body.unlocked .lock-screen {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition-delay: 0.48s;
+}
+
+/* =========================
+   CORAÇÃO APROVADO
+   ========================= */
+
+#scene {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #000;
+
+  opacity: 0;
+  transform: scale(0.985);
+  transition:
+    opacity 0.8s ease 0.45s,
+    transform 0.8s ease 0.45s;
+}
+
+body.unlocked #scene {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/*
+  A animação trabalha em uma área virtual de 450 x 450 px.
+  Só escalamos a área inteira para caber em qualquer tela,
+  sem alterar o movimento do efeito.
+*/
+#ui {
+  --scale: 1;
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 450px;
+  height: 450px;
+
+  transform: translate(-50%, -50%) scale(var(--scale));
+  transform-origin: center center;
+}
+
+#ui .love {
+  position: absolute;
+  top: 0;
+  left: 0;
+  --i: 1;
+}
+
+#ui .love_word {
+  color: #ea80b0;
+  font-size: 1.4rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  white-space: nowrap;
+
+  transform: translateY(-100%) rotate(-30deg);
+  transform-origin: left bottom;
+
+  text-shadow:
+    0 0 3px rgba(255, 255, 255, 0.72),
+    0 0 9px rgba(234, 128, 176, 0.72);
+
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#ui .love_horizontal {
+  animation: horizontal 10s infinite alternate ease-in-out;
+  animation-delay: calc(var(--i) * -300ms);
+  will-change: transform;
+}
+
+#ui .love_vertical {
+  animation: vertical 20s infinite linear;
+  animation-delay: calc(var(--i) * -300ms);
+  will-change: transform;
+}
+
+@keyframes horizontal {
+  from { transform: translateX(0px); }
+  to   { transform: translateX(450px); }
+}
+
+@keyframes vertical {
+  0%   { transform: translateY(180px); }
+  10%  { transform: translateY(45px); }
+  15%  { transform: translateY(4.5px); }
+  18%  { transform: translateY(0px); }
+  20%  { transform: translateY(4.5px); }
+  22%  { transform: translateY(34.61538px); }
+  24%  { transform: translateY(64.28571px); }
+  25%  { transform: translateY(112.5px); }
+  26%  { transform: translateY(64.28571px); }
+  28%  { transform: translateY(34.61538px); }
+  30%  { transform: translateY(4.5px); }
+  32%  { transform: translateY(0px); }
+  35%  { transform: translateY(4.5px); }
+  40%  { transform: translateY(45px); }
+  50%  { transform: translateY(180px); }
+  71%  { transform: translateY(428.57143px); }
+  72.5%{ transform: translateY(441.17647px); }
+  75%  { transform: translateY(450px); }
+  77.5%{ transform: translateY(441.17647px); }
+  79%  { transform: translateY(428.57143px); }
+  100% { transform: translateY(180px); }
+}
+
+@media (max-width: 430px) {
+  .padlock {
+    transform: scale(0.92);
+    margin-bottom: 14px;
+  }
+
+  .lock-card {
+    transform: translateY(-2vh);
+  }
+
+  .code-part {
+    width: 61px;
+    height: 54px;
+  }
+}
